@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "881511245003",
+    "project_id": "teja-techcamp",
+    "storage_bucket": "teja-techcamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881511245003:android:a152eb7bbd8a114309a74e",
+        "android_client_info": {
+          "package_name": "com.example.teman_jalan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881511245003-rfrt33lbklq5m6d7rm5fsg0tkb9m8cs7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3uZ2R6eQCK_Db7FlXEt8Pxnp_YzF6XQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881511245003-rfrt33lbklq5m6d7rm5fsg0tkb9m8cs7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "881511245003-hv4oeo7ucgbnbo4vs0046mlgscg0bafb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.temanJalan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
