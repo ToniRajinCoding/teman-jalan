@@ -1,0 +1,30 @@
+void updateTimeStatus() async {
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  //Get Data
+  final now = DateTime.now();
+  final currentMinutes = now.minute;
+
+  //Round the minute into :30 or :00
+  final validMinutes = currentMinutes - currentMinutes % 30;
+  
+  //Set the final threshold to compare with created data in firebase
+  final validTime = DateTime(now.year, now.month, now.day, now.hour, validMinutes);
+
+  final snapshot = await firestoreInstance.collection('crowdness').get();
+
+  //Looping
+  for (var doc in snapshot.docs) {
+
+    //Get data
+    final createTimeObj = (doc.get('timestamp') as Timestamp).toDate();
+
+    //compare the data in Firebase with final threshold
+    if (createTimeObj.isBefore(validTime)) {
+      firestoreInstance
+          .collection('crowdness')
+          .doc(doc.id)
+          .update({'statusValidity': 'invalid'});
+    }
+  }
+}
