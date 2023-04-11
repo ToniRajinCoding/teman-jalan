@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:teman_jalan/home.dart';
 import 'package:teman_jalan/cloud_function.dart';
 import 'package:teman_jalan/stops_info.dart';
 
@@ -37,12 +35,11 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller = Completer();
   late final GoogleMapController markerController;
 
-  List<Marker> _markers = [];
+  final List<Marker> _markers = [];
 
   late StreamSubscription<Position> _positionStream;
   late LatLng _currentPosition = const LatLng(0, 0);
   bool _cardShown = false;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   double _minDistance = double.infinity;
   String _nearestMarkerId = '';
@@ -55,10 +52,8 @@ class MapSampleState extends State<MapSample> {
 
     _positionStream =
         Geolocator.getPositionStream().listen((Position position) {
-      print(_markers);
-
       if (_markers.isNotEmpty) {
-        _markers.forEach((marker) {
+        for (var marker in _markers) {
           double distanceInMeters = Geolocator.distanceBetween(
             _currentPosition.latitude,
             _currentPosition.longitude,
@@ -69,7 +64,7 @@ class MapSampleState extends State<MapSample> {
             _minDistance = distanceInMeters;
             _nearestMarkerId = marker.markerId.value;
           }
-        });
+        }
 
         if (_nearestMarkerId.isNotEmpty && !_cardShown) {
           showDialog(
@@ -171,7 +166,7 @@ class MapSampleState extends State<MapSample> {
             left: 0,
             right: 0,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: FloatingActionButton(
                 heroTag: "toStops",
                 onPressed: () {
@@ -180,7 +175,7 @@ class MapSampleState extends State<MapSample> {
                       MaterialPageRoute(
                           builder: (context) => const StopsInfo()));
                 },
-                child: Icon(Icons.directions_bus_outlined),
+                child: const Icon(Icons.directions_bus_outlined),
               ),
             ),
           ),

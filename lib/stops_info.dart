@@ -1,11 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:teman_jalan/cloud_function.dart';
-import 'package:teman_jalan/main.dart';
-import 'package:teman_jalan/station.dart';
-import 'crowdedness.dart';
 
 class StopsInfo extends StatefulWidget {
   //final String id;
@@ -22,12 +16,21 @@ class _StopsInfoState extends State<StopsInfo> {
     super.initState();
   }
 
-  List<String> _stopsList = [
+  final List<String> _stopsList = [
     'Bundaran HI',
     'Wisma Nusantara',
     'Plaza Indonesia',
     'Tanah Abang'
   ];
+
+  int _radioValue = 0;
+
+  // function to handle radio button selection
+  void _handleRadioValueChange(int? value) {
+    setState(() {
+      _radioValue = value!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +61,8 @@ class _StopsInfoState extends State<StopsInfo> {
           ),
           onChanged: (value) {
             // Perform search operation
-            print(value);
           },
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
@@ -97,20 +99,18 @@ class _StopsInfoState extends State<StopsInfo> {
                   title: Text(_stopsList[index]),
                   subtitle: const Text('1, 3, 6A, 6B, 9D, M6'),
                   trailing: SizedBox(
-                    width: 30.0,
+                    width: 56.0,
                     height: 30.0,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all<Size>(
-                              const Size(10, 10)),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.zero),
-                          visualDensity: VisualDensity.compact),
-                      child: const Icon(
-                        Icons.groups_2,
-                        size: 16,
-                      ),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.group_add, size: 20),
+                      label: const Text(""),
+                      onPressed: () {
+                        _showModalSheet();
+                      },
+                      // child: const Icon(
+                      //   Icons.groups_2,
+                      //   size: 16,
+                      // ),
                     ),
                   ),
                 );
@@ -119,6 +119,73 @@ class _StopsInfoState extends State<StopsInfo> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.groups_2, size: 50.0),
+              const SizedBox(height: 10.0),
+              const Text(
+                'How Crowded is Bundaran HI?',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio(
+                    value: 0,
+                    groupValue: _radioValue,
+                    onChanged: _handleRadioValueChange,
+                  ),
+                  const Text('Not Crowded'),
+                  const Icon(Icons.person, size: 24.0),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio(
+                    value: 1,
+                    groupValue: _radioValue,
+                    onChanged: _handleRadioValueChange,
+                  ),
+                  const Text('Crowded'),
+                  const Icon(Icons.group, size: 24.0),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio(
+                    value: 2,
+                    groupValue: _radioValue,
+                    onChanged: _handleRadioValueChange,
+                  ),
+                  const Text('Max Capacity'),
+                  const Icon(Icons.warning, size: 24.0),
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  // code to submit the selected radio value
+                  Navigator.pop(context);
+                },
+                child: const Text('Submit'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
