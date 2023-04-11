@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:teman_jalan/cloud_function.dart';
+import 'package:teman_jalan/home.dart';
 import 'package:teman_jalan/stops_info.dart';
 
 import 'crowded_card.dart';
@@ -147,7 +148,7 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Geolocator and Maps Demo'),
+          title: const Text('route'),
         ),
         body: Stack(children: [
           GoogleMap(
@@ -158,22 +159,18 @@ class MapSampleState extends State<MapSample> {
             ),
             markers: Set<Marker>.of(_markers),
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            compassEnabled: true,
+            zoomControlsEnabled: false,
           ),
           Positioned(
             bottom: 16.0,
-            left: 0,
-            right: 0,
+            right: 16,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: FloatingActionButton(
                 heroTag: "toStops",
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StopsInfo()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Home()));
                 },
                 child: const Icon(Icons.directions_bus_outlined),
               ),
