@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:teman_jalan/direction.dart';
-import 'package:teman_jalan/search.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -90,14 +89,14 @@ class _HomeState extends State<Home> {
                       title: Text(prediction.description!),
                       onTap: () {
                         //_selectPrediction(prediction);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Direction(
-                              prediction: prediction,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => Direction(
+                        //       prediction: prediction,
+                        //     ),
+                        //   ),
+                        // );
                       },
                     );
                   },
@@ -171,33 +170,33 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // void _selectPrediction(Prediction prediction) async {
-  //   PlacesDetailsResponse response =
-  //       await _places.getDetailsByPlaceId(prediction.placeId!);
+  void _selectPrediction(Prediction prediction) async {
+    PlacesDetailsResponse response =
+        await _places.getDetailsByPlaceId(prediction.placeId!);
 
-  //   if (response.isOkay) {
-  //     double lat = response.result.geometry!.location.lat;
-  //     double lng = response.result.geometry!.location.lng;
-  //     String address = response.result.formattedAddress!;
+    if (response.isOkay) {
+      double lat = response.result.geometry!.location.lat;
+      double lng = response.result.geometry!.location.lng;
+      String address = response.result.formattedAddress!;
 
-  //     // Add a marker for the selected location on the map
-  //     Marker marker = Marker(
-  //       markerId: MarkerId('selected_location'),
-  //       position: LatLng(lat, lng),
-  //       infoWindow: InfoWindow(title: address),
-  //     );
-  //     setState(() {
-  //       _markers.add(marker);
-  //     });
+      // Add a marker for the selected location on the map
+      Marker marker = Marker(
+        markerId: MarkerId('selected_location'),
+        position: LatLng(lat, lng),
+        infoWindow: InfoWindow(title: address),
+      );
+      setState(() {
+        _markers.add(marker);
+      });
 
-  //     // Navigate to the selected location on the map
-  //     _controllerz?.animateCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+      // Navigate to the selected location on the map
+      _controllerz?.animateCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
 
-  //     // Update the search bar text with the selected address
-  //     setState(() {
-  //       _textEditingController.text = address;
-  //       _predictions = [];
-  //     });
-  //   }
-  // }
+      // Update the search bar text with the selected address
+      setState(() {
+        _textEditingController.text = address;
+        _predictions = [];
+      });
+    }
+  }
 }

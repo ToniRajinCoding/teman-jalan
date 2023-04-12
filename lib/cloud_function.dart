@@ -34,44 +34,71 @@ void updateTimeStatus() async {
 }
 
 void updateStatus(String cStationId) {
-  final CollectionReference crowdnessRef =
-      FirebaseFirestore.instance.collection('crowdedness');
+  print("FUNTION BERHASIL DIJALANKAN");
 
   final DocumentReference stationRef = FirebaseFirestore.instance
       .collection('transjakarta_station')
-      .doc(cStationId);
+      .doc("H00022P");
 
-  StreamBuilder<QuerySnapshot>(
-      stream: crowdnessRef
-          .where(
-            'statusValidity',
-            isEqualTo: 'valid',
-          )
-          .where('stationId', isEqualTo: cStationId)
-          .snapshots(),
-      builder: (context, snapshot) {
-        final docs = snapshot.data!.docs;
+  FirebaseFirestore.instance
+      .collection('crowdedness')
+      .get()
+      .then((QuerySnapshot querySnapshot) => {
+            querySnapshot.docs.forEach((doc) {
+              final statusCounts = <String, int>{};
+              final status = doc['status'] as String?;
+              if (status != null) {
+                statusCounts[status] = (statusCounts[status] ?? 0) + 1;
+              }
+              final mostCommonStatus = statusCounts.entries
+                  .reduce((a, b) => a.value > b.value ? a : b)
+                  .key;
 
-        if (docs.isEmpty) {
-          return const Center(
-            child: Text('No data found'),
-          );
-        }
-
-        final statusCounts = <String, int>{};
-        for (final doc in docs) {
-          final status = doc['status'] as String?;
-          if (status != null) {
-            statusCounts[status] =
-                (statusCounts[status] ?? 0) + 1; //<11-4-2023[""],0>
-          }
-        }
-        final mostCommonStatus = statusCounts.entries
-            .reduce((a, b) => a.value > b.value ? a : b)
-            .key;
-
-        stationRef.update({'status': mostCommonStatus});
-
-        return Text(mostCommonStatus);
-      });
+              stationRef.update({'status': mostCommonStatus});
+            })
+          });
 }
+  // final DocumentReference stationRef = FirebaseFirestore.instance
+  //     .collection('transjakarta_station')
+  //     .doc("H00022P");
+
+  // print("ini sebelom builder");
+
+//   StreamBuilder<QuerySnapshot>(
+//       stream: crowdnessRef
+//           .where(
+//             'statusValidity',
+//             isEqualTo: 'valid',
+//           )
+//           .snapshots(),
+//       builder: (context, snapshot) {
+//         print("Disnii masih jalannn");
+//         final docs = snapshot.data!.docs;
+
+//         if (docs.isEmpty) {
+//           print("NO DATA FOUND");
+//           return const Center(
+//             child: Text('No data found'),
+//           );
+//         }
+
+//         final statusCounts = <String, int>{};
+//         for (final doc in docs) {
+//           final status = doc['status'] as String?;
+//           if (status != null) {
+//             statusCounts[status] = (statusCounts[status] ?? 0) + 1;
+//           }
+//         }
+//         final mostCommonStatus = statusCounts.entries
+//             .reduce((a, b) => a.value > b.value ? a : b)
+//             .key;
+
+//         print("TEST TEST TEST $mostCommonStatus");
+
+//         stationRef.update({'status': mostCommonStatus});
+
+//         print("UPDATE BERHASIL");
+
+//         return Text(mostCommonStatus);
+//       });
+// }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -80,6 +81,7 @@ class MapSampleState extends State<MapSample> {
               _cardShown = true;
             });
           });
+          _cardShown = true;
         }
       }
 
@@ -162,15 +164,18 @@ class MapSampleState extends State<MapSample> {
             zoomControlsEnabled: false,
           ),
           Positioned(
-            bottom: 16.0,
+            bottom: 67.0,
             right: 16,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: FloatingActionButton(
                 heroTag: "toStops",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Home()));
+                  updateStatus("H00022P");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StopsInfo()));
                 },
                 child: const Icon(Icons.directions_bus_outlined),
               ),
