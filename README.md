@@ -1,16 +1,3 @@
 # teman_jalan
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+TEJA is a new integrated public transportation navigation app that provides a seamless and comprehensive user experience for accessing real-time public transit information. By combining the functionality of Google Maps and Moovit, TEJA offers users the ability to find optimal routes for their journey, view detailed schedules and real-time location data for public transit vehicles, and receive personalized route suggestions based on their preferences. With TEJA, users no longer need to rely on two separate applications for accessing all relevant information, resulting in an improved user experience and increased overall value. TEJA is designed to be user-friendly and accessible to a wide range of users and offers a variety of features and functionality to meet the needs of different types of travelers.
